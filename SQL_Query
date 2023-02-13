@@ -1,0 +1,89 @@
+-- List Queries of SQL
+-- Create Table and Insert Values into Table
+
+CREATE TABLE students
+(
+    student_id int,
+    first_name varchar(255),
+    last_name varchar(255),
+    age int,
+    grade varchar(50)
+)
+-- Insert Values
+INSERT INTO students VALUES
+(004, 'Dimaz', 'Kopjeng', 17, 'Senior High School'),
+(005, 'Bella', 'Maramis', 11, 'Elementary School'),
+(006, 'Virgil', 'Lumabiang', 19, 'College Students')
+
+-- TOP 3
+SELECT * FROM students
+LIMIT 3
+
+-- Distinct
+SELECT DISTINCT (grade)
+FROM students
+
+-- Max and Min
+SELECT MAX(age)
+FROM students
+
+-- Where Statements
+SELECT * FROM students
+WHERE Age < 17 AND grade = 'Senior High School'
+
+-- LIKE Statements
+SELECT * FROM students
+WHERE first_name LIKE 'J%'
+
+SELECT * FROM students
+WHERE last_name LIKE '%a%'
+
+--  IN Statements
+SELECT * FROM students
+WHERE first_name IN('Jenifer', 'Virgil')
+
+-- GROUP BY Statements
+SELECT grade, COUNT(grade)
+FROM students
+GROUP BY grade
+ORDER BY grade ASC
+
+--  INNER JOIN/OUTER JOIN
+SELECT * from employeedemographics
+INNER JOIN employeesalary
+    ON employeedemographics.employeeid = employeesalary.employeeid  
+
+-- LEFT JOIN
+SELECT firstname, age, gender
+FROM employeedemographics
+LEFT OUTER JOIN employeesalary
+    ON employeedemographics.employeeid = employeesalary.employeeid
+WHERE firstname IN ('Clay','Clover')
+ORDER BY salary desc
+
+-- Case Statement
+SELECT firstname, lastname, age,
+CASE
+    WHEN age >= 31 THEN 'Old'
+    WHEN age = 29 THEN 'Young'
+    ELSE 'Baby'
+END
+FROM employeedemographics
+WHERE AGE is NOT NULL
+ORDER BY age
+
+SELECT * from employeesalary
+
+-- Common Table Expression (CTE)
+WITH CTE_employeedemographics as
+(
+    SELECT firstname, lastname, gender, salary
+    , COUNT(gender) OVER (PARTITION by gender) as TotalGender
+    , AVG(salary) OVER (PARTITION BY gender) as AvgSalary
+    FROM employeedemographics emp
+    JOIN employeesalary sal
+        ON emp.employeeid = sal.employeeid
+    WHERE Salary > 9000000
+)
+SELECT firstname as First_name, AvgSalary as Average_Salary
+FROM CTE_employeedemographics
