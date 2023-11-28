@@ -1,0 +1,318 @@
+-- Create Books Table --
+
+CREATE TABLE Books (
+    BookID SERIAL PRIMARY KEY,
+    Title VARCHAR(255),
+    Author VARCHAR(255),
+    Genre VARCHAR(50),
+    Price DECIMAL(10, 2),
+    QuantityAvailable INT
+);
+
+-- Insert Sample Data into Books Table --
+
+INSERT INTO Books (Title, Author, Genre, Price, QuantityAvailable)
+VALUES
+('The Fountainhead', 'Ayn Rand', 'Philosophical Fiction', 15.99, 22),
+('The Road Not Taken', 'Robert Frost', 'Poetry', 7.99, 18),
+('The Silent Patient', 'Alex Michaelides', 'Psychological Thriller', 14.49, 27),
+('The Secret Garden', 'Frances Hodgson Burnett', 'Children''s Literature', 9.99, 35),
+('The Old Man and the Sea', 'Ernest Hemingway', 'Adventure', 11.99, 20),
+('The Sun Also Rises', 'Ernest Hemingway', 'Modernist', 12.99, 15),
+('The Maze Runner', 'James Dashner', 'Young Adult', 10.49, 28),
+('The Fault in Our Stars', 'John Green', 'Romance', 13.49, 23),
+('The War of the Worlds', 'H.G. Wells', 'Science Fiction', 11.99, 19),
+('The Scarlet Letter', 'Nathaniel Hawthorne', 'Historical Fiction', 10.99, 24);
+
+
+-- Create Customers Table --
+
+CREATE TABLE Customers (
+    CustomerID SERIAL PRIMARY KEY,
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(255),
+    Phone VARCHAR(20)
+);
+
+-- Insert Sample Data into Customers Table --
+
+INSERT INTO Customers (FirstName, LastName, Email, Phone)
+VALUES
+('Karen', 'Wright', 'karen.wright@email.com', '555-6677'),
+('Leo', 'Campbell', 'leo.campbell@email.com', '555-8899'),
+('Mia', 'Young', 'mia.young@email.com', '555-0011'),
+('Nathan', 'Clark', 'nathan.clark@email.com', '555-2233'),
+('Olivia', 'Gordon', 'olivia.gordon@email.com', '555-4455'),
+('Peter', 'Baker', 'peter.baker@email.com', '555-6677'),
+('Quinn', 'Howard', 'quinn.howard@email.com', '555-8899'),
+('Alice', 'Johnson', 'alice.johnson@email.com', '555-1234'),
+('Bob', 'Smith', 'bob.smith@email.com', '555-5678'),
+('Charlie', 'Davis', 'charlie.davis@email.com', '555-9101'),
+('David', 'Miller', 'david.miller@email.com', '555-1122'),
+('Eva', 'Anderson', 'eva.anderson@email.com', '555-3344'),
+('Frank', 'Brown', 'frank.brown@email.com', '555-5566'),
+('Grace', 'Taylor', 'grace.taylor@email.com', '555-7788'),
+('Henry', 'Martin', 'henry.martin@email.com', '555-9900'),
+('Ivy', 'Garcia', 'ivy.garcia@email.com', '555-2233'),
+('Riley', 'Fisher', 'riley.fisher@email.com', '555-0011'),
+('Sophia', 'Murray', 'sophia.murray@email.com', '555-2233'),
+('Trevor', 'Fleming', 'trevor.fleming@email.com', '555-4455'),
+('Ursula', 'Gomez', 'ursula.gomez@email.com', '555-6677'),
+('Victor', 'Pearson', 'victor.pearson@email.com', '555-8899'),
+('Wendy', 'Hudson', 'wendy.hudson@email.com', '555-0011'),
+('Xavier', 'Reyes', 'xavier.reyes@email.com', '555-2233'),
+('Yara', 'Lopez', 'yara.lopez@email.com', '555-4455'),
+('Zane', 'Vargas', 'zane.vargas@email.com', '555-6677'),
+('Amelia', 'Cruz', 'amelia.cruz@email.com', '555-8899'),
+('Bryan', 'Wallace', 'bryan.wallace@email.com', '555-0011'),
+('Chloe', 'Owens', 'chloe.owens@email.com', '555-2233'),
+('Derek', 'Spencer', 'derek.spencer@email.com', '555-4455'),
+('Emily', 'Ferguson', 'emily.ferguson@email.com', '555-6677'),
+('Felix', 'Nelson', 'felix.nelson@email.com', '555-8899'),
+('Giselle', 'Porter', 'giselle.porter@email.com', '555-0011'),
+('Hugo', 'Ramirez', 'hugo.ramirez@email.com', '555-2233');
+
+-- Create Orders Table --
+
+CREATE TABLE Orders (
+    OrderID SERIAL PRIMARY KEY,
+    CustomerID INT,
+    BookID INT,
+    Quantity INT,
+    TotalPrice DECIMAL(10, 2),
+    OrderDate DATE,
+    FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    FOREIGN KEY (BookID) REFERENCES Books(BookID)
+);
+
+-- Insert Sample Data into Orders Table --
+
+INSERT INTO Orders (CustomerID, BookID, Quantity, TotalPrice, OrderDate)
+VALUES
+(6, 11, 2, 27.98, '2023-05-15'::DATE),
+(7, 10, 1, 14.49, '2023-05-18'::DATE),
+(8, 12, 3, 32.97, '2023-05-21'::DATE),
+(9, 13, 1, 15.99, '2023-05-24'::DATE),
+(10, 14, 2, 25.98, '2023-05-27'::DATE),
+(1, 15, 3, 44.97, '2023-05-30'::DATE),
+(2, 16, 1, 13.49, '2023-06-02'::DATE),
+(3, 17, 2, 25.98, '2023-06-05'::DATE),
+(4, 18, 1, 10.99, '2023-06-08'::DATE),
+(5, 19, 4, 59.96, '2023-06-11'::DATE),
+(6, 20, 2, 23.98, '2023-06-14'::DATE),
+(7, 21, 1, 14.49, '2023-06-17'::DATE),
+(8, 22, 3, 32.97, '2023-06-20'::DATE),
+(9, 23, 1, 15.99, '2023-06-23'::DATE),
+(10, 24, 2, 25.98, '2023-06-26'::DATE),
+(1, 25, 3, 44.97, '2023-06-29'::DATE),
+(2, 26, 1, 13.49, '2023-07-02'::DATE),
+(3, 27, 2, 25.98, '2023-07-05'::DATE),
+(4, 28, 1, 10.99, '2023-07-08'::DATE),
+(5, 29, 4, 59.96, '2023-07-11'::DATE);
+
+
+
+
+
+-- TASK --
+
+
+-- VIEW CUSTOMER ORDER HISTORY
+
+SELECT
+    p.OrderID,
+    c.FirstName || ' ' || c.LastName AS CustomerName,
+    b.Title AS BookTitle,
+    p.Quantity,
+    p.TotalPrice,
+    p.OrderDate
+FROM
+    Orders p
+JOIN
+    Customers c ON p.CustomerID = c.CustomerID
+JOIN
+    Books b ON p.BookID = b.BookID;
+	
+	
+-- QUERY TO CALCULATE TOTAL SALES
+SELECT
+    SUM(TotalPrice) AS TotalSales
+FROM
+    Orders;
+
+
+-- FIND CUSTOMERS WITH HIGH SPENDING WHERE TOTALPRICE MORE THAN 50
+
+SELECT
+    c.CustomerID,
+    c.FirstName || ' ' || c.LastName AS CustomerName,
+    SUM(o.TotalPrice) AS TotalSpending
+FROM
+    Customers c
+JOIN
+    Orders o ON c.CustomerID = o.CustomerID
+GROUP BY
+    c.CustomerID, CustomerName
+HAVING
+    SUM(o.TotalPrice) > 50;
+	
+	
+ -- IDENTIFY BEST-SELLING BOOKS
+ 
+SELECT
+    b.Title AS BookTitle,
+    SUM(o.Quantity) AS TotalQuantitySold
+FROM
+    Books b
+JOIN
+    Orders o ON b.BookID = o.BookID
+GROUP BY
+    b.Title
+ORDER BY
+    TotalQuantitySold DESC;
+	
+-- DISPLAY CUSTOMER DETAILS WITH NO ORDERS
+
+SELECT *
+FROM Customers c
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM Orders o
+    WHERE o.CustomerID = c.CustomerID
+);
+
+-- Identify inactive books
+
+SELECT *
+FROM Books b
+WHERE b.QuantityAvailable = 0
+   OR NOT EXISTS (
+       SELECT 1
+       FROM Orders o
+       WHERE o.BookID = b.BookID
+   );
+   
+-- CALCULATE AVERAGE ORDER QUANTITY
+
+SELECT
+    AVG(Quantity) AS AverageOrderQuantity
+FROM Orders;
+
+-- FIND CUSTOMERS WITH MOST ORDERS
+
+SELECT
+    c.FirstName || ' ' || c.LastName AS CustomerName,
+    COUNT(o.OrderID) AS NumberOfOrders
+FROM
+    Customers c
+JOIN
+    Orders o ON c.CustomerID = o.CustomerID
+GROUP BY
+    c.CustomerID, CustomerName
+ORDER BY
+    NumberOfOrders DESC
+LIMIT 5; 
+
+-- IDENTIFY POPULAR GENRES
+SELECT
+    b.Genre,
+    SUM(o.Quantity) AS TotalQuantitySold
+FROM
+    Books b
+JOIN
+    Orders o ON b.BookID = o.BookID
+GROUP BY
+    b.Genre
+ORDER BY
+    TotalQuantitySold DESC;
+    
+	
+-- CALCULATE CUSTOMER LIFETIME VALUE (CLV)
+
+SELECT
+    c.CustomerID,
+    c.FirstName || ' ' || c.LastName AS CustomerName,
+    SUM(o.TotalPrice) AS CLV
+FROM
+    Customers c
+JOIN
+    Orders o ON c.CustomerID = o.CustomerID
+GROUP BY
+    c.CustomerID, CustomerName
+ORDER BY
+    CLV DESC;
+    
+-- Display latest orders
+
+SELECT
+    c.FirstName || ' ' || c.LastName AS CustomerName,
+    b.Title AS BookTitle,
+    o.Quantity,
+    o.OrderDate
+FROM
+    Orders o
+JOIN
+    Customers c ON o.CustomerID = c.CustomerID
+JOIN
+    Books b ON o.BookID = b.BookID
+ORDER BY
+    o.OrderDate DESC
+LIMIT 10;
+
+
+SELECT
+    c.CustomerID,
+    c.FirstName || ' ' || c.LastName AS CustomerName,
+    AVG(o.TotalPrice) AS AverageSpending
+FROM
+    Customers c
+JOIN
+    Orders o ON c.CustomerID = o.CustomerID
+GROUP BY
+    c.CustomerID, CustomerName
+HAVING
+    AVG(o.TotalPrice) > :average_spending_threshold;
+	
+	
+	
+	
+-- INTERMEDIATE --
+
+-- CALCULATE MONTHLY SALES
+
+SELECT
+    EXTRACT(MONTH FROM OrderDate) AS Month,
+    EXTRACT(YEAR FROM OrderDate) AS Year,
+    SUM(TotalPrice) AS MonthlySales
+FROM
+    Orders
+GROUP BY
+    Year, Month
+ORDER BY
+    Year, Month;
+	
+-- Identify customers with diverse purchases (who purchased multiple genres)
+
+SELECT
+    c.CustomerID,
+    c.FirstName || ' ' || c.LastName AS CustomerName,
+    COUNT(DISTINCT b.Genre) AS DistinctGenresPurchased
+FROM
+    Customers c
+JOIN
+    Orders o ON c.CustomerID = o.CustomerID
+JOIN
+    Books b ON o.BookID = b.BookID
+GROUP BY
+    c.CustomerID, CustomerName
+HAVING
+    COUNT(DISTINCT b.Genre) > 1;
+	
+
+
+
+
+
+
+
