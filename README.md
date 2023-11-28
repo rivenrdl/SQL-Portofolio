@@ -1,2 +1,2 @@
-# SQL-Query
-SQL Query Basics and Intermediate
+# SQL-Porftolio
+SQL Portofolio (Basic - Intermediate)
