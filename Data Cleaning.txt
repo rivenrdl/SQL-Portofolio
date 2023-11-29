@@ -1,0 +1,160 @@
+-- Data Cleaning in SQL --
+
+
+-- CREATE TABLE -- 
+
+CREATE TABLE employee (
+    id INT,
+    name VARCHAR(255),
+    age INT,
+    gender VARCHAR(10),
+    salary DECIMAL(10, 2)
+);
+
+-- INSERT VALUES --
+
+INSERT INTO employee VALUES
+(1, 'Jeni Sambul', 22, 'Female', 75000.00),
+(2, 'Michiro Gosl', NULL, 'Female', 60000.00),
+(3, 'Edo Julian', NULL, 'male', -45000.00);
+
+
+-- Identify duplicates based on the id column
+WITH duplicate_cte AS (
+    SELECT
+        id,
+        ROW_NUMBER() OVER (PARTITION BY id ORDER BY id) AS row_num
+    FROM employee
+)
+SELECT id, row_num
+FROM duplicate_cte
+WHERE row_num > 1;
+
+-- Remove duplicates based on the id column, keeping the one with the lowest id
+WITH duplicate_cte AS (
+    SELECT
+        id,
+        ROW_NUMBER() OVER (PARTITION BY id ORDER BY id) AS row_num
+    FROM raw_data
+)
+DELETE FROM raw_data
+WHERE id IN (
+    SELECT id
+    FROM duplicate_cte
+    WHERE row_num > 1
+);
+
+-- Identify records with missing age values
+SELECT *
+FROM employee e 
+WHERE age IS NULL;
+
+-- Input missing age/null value with the mean (It's an option. You can use another methods. Depends your data.)
+UPDATE employee 
+SET age = (SELECT AVG(age) FROM employee  WHERE age IS NOT NULL)
+WHERE age IS NULL;
+
+-- Standardize gender values  -- 
+UPDATE employee 
+SET gender = UPPER(SUBSTR(gender, 1, 1)) || LOWER(SUBSTR(gender, 2))
+
+-- Identify and handle negative salary values
+UPDATE employee 
+SET salary = NULL
+WHERE salary < 0;
+
+-- Decide for handling outliers (e.g., removing records) You can keep or you can use another methods. 
+DELETE FROM employee
+WHERE salary < 0;
+
+select * from employee e 
+
+-- Summary statistics
+SELECT
+    AVG(age) AS avg_age,
+    STDDEV(age) AS std_dev_age,
+    AVG(salary) AS avg_salary,
+    STDDEV(salary) AS std_dev_salary
+FROM employee;
+
+-- Remove leading and trailing whitespace from the name column
+UPDATE employee 
+SET name = TRIM(name);
+
+-- Create a new column for age group
+ALTER TABLE employee 
+ADD COLUMN age_group VARCHAR(20);
+
+-- Update age group based on age ranges
+UPDATE employee 
+SET age_group = CASE
+    WHEN age < 18 THEN 'Junior'
+    WHEN age BETWEEN 18 AND 35 THEN 'Middle'
+    WHEN age BETWEEN 36 AND 50 THEN 'Senior'
+    ELSE 'Manager'
+END;
+
+select * from employee e 
+
+-- Assuming salaries are in USD, convert to a common currency
+UPDATE employee 
+SET salary = salary * 15.000; -- Assuming a conversion rate of 1 USD = Rp15.000
+
+
+-- Extract the first name from the name column
+SELECT
+    id,
+    name,
+    CASE
+        WHEN POSITION(' ' IN name) > 0 THEN
+            SUBSTRING(name FROM 1 FOR POSITION(' ' IN name) - 1)
+        ELSE
+            name
+    END AS first_name
+FROM employee e ;
+
+-- CONVERT GENDER TO BINARY
+
+-- Create a new column for binary gender (0 for Female, 1 for Male)
+ALTER TABLE employee 
+ADD COLUMN gender_binary INT;
+
+-- Update binary gender values
+UPDATE employee 
+SET gender_binary = CASE
+    WHEN gender = 'Female' THEN 0
+    WHEN gender = 'Male' THEN 1
+    ELSE NULL
+END;
+
+
+-- Add birthdate column
+ALTER TABLE employee 
+ADD COLUMN birthdate DATE;
+
+-- Set birthdate for a record
+UPDATE employee 
+SET birthdate = '1990-01-15'
+WHERE id = 1;
+
+-- Calculate age from birthdate
+SELECT
+    id,
+    name,
+    birthdate,
+    EXTRACT(YEAR FROM AGE(NOW(), birthdate)) AS age
+FROM employee e ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
