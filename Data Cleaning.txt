@@ -16,7 +16,15 @@ CREATE TABLE employee (
 INSERT INTO employee VALUES
 (1, 'Jeni Sambul', 22, 'Female', 75000.00),
 (2, 'Michiro Gosl', NULL, 'Female', 60000.00),
-(3, 'Edo Julian', NULL, 'male', -45000.00);
+(3, 'Edo Julian', NULL, 'male', -45000.00),
+(4, 'John Doe', 25, 'Male', 50000.00),
+(5, 'Jane Smith', NULL, 'Female', 60000.00),
+(6, 'Bob Johnson', 35, 'male', -55000.00),
+(7, 'Alice Brown', 30, 'Female', 70000.00),
+(8, 'John Doe', 25, 'Male', 50000.00),
+(9, 'Mary Davis', 45, 'Female', NULL);
+
+-- (Values above is just samples. You can insert or custom the values) --
 
 
 -- Identify duplicates based on the id column
